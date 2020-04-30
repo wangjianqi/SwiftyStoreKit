@@ -70,9 +70,11 @@ class ViewController: UIViewController {
     }
     
     // MARK: consumable
+    // 消耗
     @IBAction func consumableGetInfo() {
         getInfo(.consumablePurchase)
     }
+    // 购买
     @IBAction func consumablePurchase() {
         purchase(.consumablePurchase, atomically: consumableIsAtomic)
     }
@@ -119,6 +121,7 @@ class ViewController: UIViewController {
     func getInfo(_ purchase: RegisteredPurchase) {
 
         NetworkActivityIndicatorManager.networkOperationStarted()
+        // com.musevisions.iOS.SwiftyStoreKit.consumablePurchase
         SwiftyStoreKit.retrieveProductsInfo([appBundleId + "." + purchase.rawValue]) { result in
             NetworkActivityIndicatorManager.networkOperationFinished()
 
@@ -129,11 +132,13 @@ class ViewController: UIViewController {
     func purchase(_ purchase: RegisteredPurchase, atomically: Bool) {
 
         NetworkActivityIndicatorManager.networkOperationStarted()
+        // 购买
         SwiftyStoreKit.purchaseProduct(appBundleId + "." + purchase.rawValue, atomically: atomically) { result in
             NetworkActivityIndicatorManager.networkOperationFinished()
 
             if case .success(let purchase) = result {
                 let downloads = purchase.transaction.downloads
+                //TODO -
                 if !downloads.isEmpty {
                     SwiftyStoreKit.start(downloads)
                 }
@@ -263,6 +268,7 @@ extension ViewController {
     func alertForProductRetrievalInfo(_ result: RetrieveResults) -> UIAlertController {
 
         if let product = result.retrievedProducts.first {
+            // 价格
             let priceString = product.localizedPrice!
             return alertWithTitle(product.localizedTitle, message: "\(product.localizedDescription) - \(priceString)")
         } else if let invalidProductId = result.invalidProductIDs.first {

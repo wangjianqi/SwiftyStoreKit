@@ -32,21 +32,24 @@ protocol InAppProductRequest: class {
 }
 
 class InAppProductQueryRequest: NSObject, InAppProductRequest, SKProductsRequestDelegate {
-
+    // 回调
     private let callback: InAppProductRequestCallback
     private let request: SKProductsRequest
 
     deinit {
         request.delegate = nil
     }
-    init(productIds: Set<String>, callback: @escaping InAppProductRequestCallback) {
 
+
+    init(productIds: Set<String>, callback: @escaping InAppProductRequestCallback) {
         self.callback = callback
+        // 请求
         request = SKProductsRequest(productIdentifiers: productIds)
         super.init()
         request.delegate = self
     }
 
+    // 开始请求
     func start() {
         request.start()
     }
@@ -55,6 +58,7 @@ class InAppProductQueryRequest: NSObject, InAppProductRequest, SKProductsRequest
     }
 
     // MARK: SKProductsRequestDelegate
+    // 实现：SKProductsRequestDelegate
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
 
         let retrievedProducts = Set<SKProduct>(response.products)
@@ -63,6 +67,7 @@ class InAppProductQueryRequest: NSObject, InAppProductRequest, SKProductsRequest
             invalidProductIDs: invalidProductIDs, error: nil))
     }
 
+    // 实现：SKRequestDelegate
     func requestDidFinish(_ request: SKRequest) {
 
     }

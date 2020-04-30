@@ -116,6 +116,7 @@ class PaymentQueueController: NSObject, SKPaymentTransactionObserver {
         assert(completeTransactionsController.completeTransactions != nil, message)
     }
 
+    // 开始购买
     func startPayment(_ payment: Payment) {
         assertCompleteTransactionsWasCalled()
         

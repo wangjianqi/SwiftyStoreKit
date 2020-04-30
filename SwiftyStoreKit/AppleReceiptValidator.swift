@@ -109,6 +109,7 @@ public struct AppleReceiptValidator: ReceiptValidator {
                     let sandboxValidator = AppleReceiptValidator(service: .sandbox, sharedSecret: self.sharedSecret)
 					sandboxValidator.validate(receiptData: receiptData, completion: completion)
 				} else {
+                    // status只有等于0验证成功
 					if receiptStatus.isValid {
 						completion(.success(receipt: receiptInfo))
 					} else {

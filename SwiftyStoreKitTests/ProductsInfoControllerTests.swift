@@ -50,7 +50,7 @@ class TestInAppProductRequest: InAppProductRequest {
 class TestInAppProductRequestBuilder: InAppProductRequestBuilder {
     
     var requests: [ TestInAppProductRequest ] = []
-    
+    // 实现InAppProductRequestBuilder：
     func request(productIds: Set<String>, callback: @escaping InAppProductRequestCallback) -> InAppProductRequest {
         let request = TestInAppProductRequest(productIds: productIds, callback: callback)
         requests.append(request)

@@ -42,7 +42,8 @@ class ProductsInfoController: NSObject {
         let request: InAppProductRequest
         var completionHandlers: [InAppProductRequestCallback]
     }
-    
+
+    // 
     let inAppProductRequestBuilder: InAppProductRequestBuilder
     init(inAppProductRequestBuilder: InAppProductRequestBuilder = InAppProductQueryRequestBuilder()) {
         self.inAppProductRequestBuilder = inAppProductRequestBuilder
@@ -54,18 +55,22 @@ class ProductsInfoController: NSObject {
     func retrieveProductsInfo(_ productIds: Set<String>, completion: @escaping (RetrieveResults) -> Void) {
 
         if inflightRequests[productIds] == nil {
+            // 创建请求
             let request = inAppProductRequestBuilder.request(productIds: productIds) { results in
                 
                 if let query = self.inflightRequests[productIds] {
+                    // 回调
                     for completion in query.completionHandlers {
                         completion(results)
                     }
+                    // 删除
                     self.inflightRequests[productIds] = nil
                 } else {
                     // should not get here, but if it does it seems reasonable to call the outer completion block
                     completion(results)
                 }
             }
+            // 添加
             inflightRequests[productIds] = InAppProductQuery(request: request, completionHandlers: [completion])
             request.start()
         } else {

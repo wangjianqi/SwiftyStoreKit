@@ -42,6 +42,7 @@ public class SwiftyStoreKit {
     }
 
     // MARK: private methods
+    // 购买
     fileprivate func retrieveProductsInfo(_ productIds: Set<String>, completion: @escaping (RetrieveResults) -> Void) {
         return productsInfoController.retrieveProductsInfo(productIds, completion: completion)
     }
@@ -49,6 +50,7 @@ public class SwiftyStoreKit {
     fileprivate func purchaseProduct(_ productId: String, quantity: Int = 1, atomically: Bool = true, applicationUsername: String = "", simulatesAskToBuyInSandbox: Bool = false, completion: @escaping ( PurchaseResult) -> Void) {
 
         retrieveProductsInfo(Set([productId])) { result -> Void in
+            // 处理
             if let product = result.retrievedProducts.first {
                 self.purchase(product: product, quantity: quantity, atomically: atomically, applicationUsername: applicationUsername, simulatesAskToBuyInSandbox: simulatesAskToBuyInSandbox, completion: completion)
             } else if let error = result.error {
@@ -64,6 +66,7 @@ public class SwiftyStoreKit {
         }
     }
 
+    // 购买
     fileprivate func purchase(product: SKProduct, quantity: Int, atomically: Bool, applicationUsername: String = "", simulatesAskToBuyInSandbox: Bool = false, completion: @escaping (PurchaseResult) -> Void) {
         paymentQueueController.startPayment(Payment(product: product, quantity: quantity, atomically: atomically, applicationUsername: applicationUsername, simulatesAskToBuyInSandbox: simulatesAskToBuyInSandbox) { result in
             
@@ -134,6 +137,7 @@ extension SwiftyStoreKit {
     /**
      * Return NO if this device is not able or allowed to make payments
      */
+    // 是否支持购买
     public class var canMakePayments: Bool {
         return SKPaymentQueue.canMakePayments()
     }
@@ -156,6 +160,7 @@ extension SwiftyStoreKit {
      *  - Parameter applicationUsername: an opaque identifier for the user’s account on your system
      *  - Parameter completion: handler for result
      */
+    // 购买
     public class func purchaseProduct(_ productId: String, quantity: Int = 1, atomically: Bool = true, applicationUsername: String = "", simulatesAskToBuyInSandbox: Bool = false, completion: @escaping (PurchaseResult) -> Void) {
 
         sharedInstance.purchaseProduct(productId, quantity: quantity, atomically: atomically, applicationUsername: applicationUsername, simulatesAskToBuyInSandbox: simulatesAskToBuyInSandbox, completion: completion)

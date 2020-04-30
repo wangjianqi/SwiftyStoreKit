@@ -25,6 +25,7 @@
 import Foundation
 import StoreKit
 
+// Pay
 struct Payment: Hashable {
     let product: SKProduct
     let quantity: Int
@@ -61,6 +62,7 @@ class PaymentsController: TransactionController {
         return findPaymentIndex(withProductIdentifier: payment.product.productIdentifier) != nil
     }
 
+    // 添加
     func append(_ payment: Payment) {
         payments.append(payment)
     }

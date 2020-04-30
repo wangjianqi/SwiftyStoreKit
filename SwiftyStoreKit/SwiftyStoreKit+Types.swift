@@ -63,7 +63,9 @@ extension SKPaymentTransaction: PaymentTransaction { }
 
 // Products information
 public struct RetrieveResults {
+    // 恢复
     public let retrievedProducts: Set<SKProduct>
+    // 无效
     public let invalidProductIDs: Set<String>
     public let error: Error?
 }
@@ -167,6 +169,7 @@ public enum ReceiptStatus: Int {
     // No status returned
     case none = -1
     // valid statu
+    // 等于0 验证成功
     case valid = 0
     // The App Store could not read the JSON object you provided.
     case jsonNotReadable = 21000
